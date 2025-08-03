@@ -36,7 +36,7 @@ export const useSecrets = () => {
             setSecrets(fetchedSecrets);
 
             // Check individual secret status
-            if (fetchedSecrets?.openai?.value) {
+            if (fetchedSecrets?.openai) {
                 setOpenaiSuccess(true);
                 setOpenaiError(null);
             } else {

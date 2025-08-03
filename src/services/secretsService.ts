@@ -28,20 +28,17 @@ export class SecretsService {
    * Fetch a specific secret value
    * @param userId - The authenticated user's ID
    * @param secretKey - The secret key (e.g., 'openai')
-   * @param subKey - The sub-key (e.g., 'value')
    * @returns Promise<string | null>
    */
   static async fetchSecretValue(
     userId: string, 
-    secretKey: string, 
-    subKey: string = 'value'
+    secretKey: string
   ): Promise<string | null> {
     try {
       const secrets = await this.fetchSecrets(userId);
-      const secret = secrets?.[secretKey];
-      return secret?.[subKey] || null;
+      return secrets?.[secretKey] || null;
     } catch (error) {
-      console.error(`Error fetching secret ${secretKey}.${subKey}:`, error);
+      console.error(`Error fetching secret ${secretKey}:`, error);
       throw error;
     }
   }
