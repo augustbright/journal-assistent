@@ -11,6 +11,8 @@ import {
 import { useAtomValue } from "jotai";
 import { openaiApiKeyAtom } from "../atoms/secrets";
 import { OpenAIService } from "../services/openaiService";
+import { Action } from "../types/actions";
+import ActionDisplay from "./ActionDisplay";
 
 interface OpenAIError {
     response?: {
@@ -26,6 +28,7 @@ interface OpenAIError {
 export default function OpenAIInterface() {
     const [prompt, setPrompt] = useState("");
     const [response, setResponse] = useState<string>("");
+    const [actions, setActions] = useState<Action[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>("");
     const openaiApiKey = useAtomValue(openaiApiKeyAtom);
@@ -49,6 +52,7 @@ export default function OpenAIInterface() {
             setLoading(true);
             setError("");
             setResponse("");
+            setActions([]);
 
             // Using the prompt ID from your curl example
             const result = await OpenAIService.generateResponseWithPromptId(
@@ -59,6 +63,21 @@ export default function OpenAIInterface() {
             );
 
             setResponse(JSON.stringify(result, null, 2));
+
+            // Parse actions from response
+            try {
+                const responseText = result.output?.[0]?.content?.[0]?.text;
+                if (responseText) {
+                    const parsedActions = JSON.parse(responseText);
+                    const actionsArray = Array.isArray(parsedActions)
+                        ? parsedActions
+                        : [parsedActions];
+                    setActions(actionsArray);
+                }
+            } catch (parseError) {
+                console.error("Error parsing actions:", parseError);
+                setActions([]);
+            }
         } catch (err: unknown) {
             const error = err as OpenAIError;
             console.error("OpenAI API error:", error);
@@ -121,7 +140,7 @@ export default function OpenAIInterface() {
             {response && (
                 <Box sx={{ mt: 3 }}>
                     <Typography variant="subtitle2" gutterBottom>
-                        Response:
+                        Raw Response:
                     </Typography>
                     <Paper
                         variant="outlined"
@@ -138,6 +157,9 @@ export default function OpenAIInterface() {
                     </Paper>
                 </Box>
             )}
+            
+            {/* Display parsed actions */}
+            <ActionDisplay actions={actions} />
         </Paper>
     );
 }
