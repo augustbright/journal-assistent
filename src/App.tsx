@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Provider } from "jotai";
 import {
     ThemeProvider,
     createTheme,
@@ -11,6 +12,7 @@ import {
     Switch,
     FormControlLabel,
     Button,
+    Alert,
 } from "@mui/material";
 
 import {
@@ -22,10 +24,12 @@ import PWABadge from "./PWABadge.tsx";
 import { analytics } from "./firebase.ts";
 import { AuthProvider, useAuth } from "./contexts/AuthContext.tsx";
 import Login from "./components/Login.tsx";
+import { useSecrets } from "./hooks/useSecrets.ts";
 
 function AppContent() {
     const [darkMode, setDarkMode] = useState(false);
     const { currentUser, logout } = useAuth();
+    const { secrets, loading: secretsLoading, error: secretsError } = useSecrets();
 
     // Initialize Firebase Analytics
     useEffect(() => {
@@ -104,10 +108,35 @@ function AppContent() {
 
                 {/* Main Content */}
                 <Container maxWidth="md" sx={{ flexGrow: 1, py: 4 }}>
-                    {/* Blank homepage */}
+                    {/* Welcome message */}
                     <Typography variant="h5" gutterBottom>
                         Welcome, {currentUser.email}!
                     </Typography>
+                    
+                    {/* Secrets status */}
+                    {secretsLoading && (
+                        <Alert severity="info" sx={{ mb: 2 }}>
+                            Loading your secrets...
+                        </Alert>
+                    )}
+                    
+                    {secretsError && (
+                        <Alert severity="error" sx={{ mb: 2 }}>
+                            Error loading secrets: {secretsError}
+                        </Alert>
+                    )}
+                    
+                    {secrets && (
+                        <Alert severity="success" sx={{ mb: 2 }}>
+                            ✅ Secrets loaded successfully
+                            {secrets.openai?.value && (
+                                <Typography variant="body2" sx={{ mt: 1 }}>
+                                    OpenAI API key: {secrets.openai.value.substring(0, 8)}...
+                                </Typography>
+                            )}
+                        </Alert>
+                    )}
+                    
                     <Typography variant="body1" color="textSecondary">
                         Your personal automation tools will appear here.
                     </Typography>
@@ -119,9 +148,11 @@ function AppContent() {
 
 function App() {
     return (
-        <AuthProvider>
-            <AppContent />
-        </AuthProvider>
+        <Provider>
+            <AuthProvider>
+                <AppContent />
+            </AuthProvider>
+        </Provider>
     );
 }
 
