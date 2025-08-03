@@ -25,6 +25,7 @@ import { analytics } from "./firebase.ts";
 import { AuthProvider, useAuth } from "./contexts/AuthContext.tsx";
 import Login from "./components/Login.tsx";
 import { useSecrets } from "./hooks/useSecrets.ts";
+import OpenAIInterface from "./components/OpenAIInterface.tsx";
 
 function AppContent() {
     const [darkMode, setDarkMode] = useState(false);
@@ -137,9 +138,12 @@ function AppContent() {
                         </Alert>
                     )}
                     
-                    <Typography variant="body1" color="textSecondary">
+                    <Typography variant="body1" color="textSecondary" sx={{ mb: 3 }}>
                         Your personal automation tools will appear here.
                     </Typography>
+                    
+                    {/* OpenAI Interface */}
+                    <OpenAIInterface />
                 </Container>
             </Box>
         </ThemeProvider>
