@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     ThemeProvider,
     createTheme,
@@ -17,9 +17,18 @@ import {
     Brightness7,
 } from "@mui/icons-material";
 import PWABadge from "./PWABadge.tsx";
+import { analytics } from "./firebase.ts";
 
 function App() {
     const [darkMode, setDarkMode] = useState(false);
+
+    // Initialize Firebase Analytics
+    useEffect(() => {
+        // Log app initialization
+        if (analytics) {
+            console.log("Firebase Analytics initialized");
+        }
+    }, []);
 
     const theme = createTheme({
         palette: {
