@@ -12,7 +12,6 @@ import {
     Switch,
     FormControlLabel,
     Button,
-    Alert,
 } from "@mui/material";
 
 import {
@@ -26,11 +25,19 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext.tsx";
 import Login from "./components/Login.tsx";
 import { useSecrets } from "./hooks/useSecrets.ts";
 import OpenAIInterface from "./components/OpenAIInterface.tsx";
+import SecretStatusIndicator from "./components/SecretStatusIndicator.tsx";
 
 function AppContent() {
     const [darkMode, setDarkMode] = useState(false);
     const { currentUser, logout } = useAuth();
-    const { secrets, loading: secretsLoading, error: secretsError } = useSecrets();
+    const {
+        secrets,
+        loading: secretsLoading,
+        error: secretsError,
+        openaiLoading,
+        openaiError,
+        openaiSuccess,
+    } = useSecrets();
 
     // Initialize Firebase Analytics
     useEffect(() => {
@@ -113,35 +120,49 @@ function AppContent() {
                     <Typography variant="h5" gutterBottom>
                         Welcome, {currentUser.email}!
                     </Typography>
-                    
+
                     {/* Secrets status */}
-                    {secretsLoading && (
-                        <Alert severity="info" sx={{ mb: 2 }}>
-                            Loading your secrets...
-                        </Alert>
-                    )}
-                    
-                    {secretsError && (
-                        <Alert severity="error" sx={{ mb: 2 }}>
-                            Error loading secrets: {secretsError}
-                        </Alert>
-                    )}
-                    
-                    {secrets && (
-                        <Alert severity="success" sx={{ mb: 2 }}>
-                            ✅ Secrets loaded successfully
-                            {secrets.openai?.value && (
-                                <Typography variant="body2" sx={{ mt: 1 }}>
-                                    OpenAI API key: {secrets.openai.value.substring(0, 8)}...
-                                </Typography>
-                            )}
-                        </Alert>
-                    )}
-                    
-                    <Typography variant="body1" color="textSecondary" sx={{ mb: 3 }}>
+                    <Box sx={{ mb: 3 }}>
+                        <Typography variant="h6" gutterBottom>
+                            Secrets Status
+                        </Typography>
+
+                        {/* Individual secret status indicators */}
+                        <SecretStatusIndicator
+                            secretName="OpenAI"
+                            loading={openaiLoading}
+                            error={openaiError}
+                            success={openaiSuccess}
+                        />
+
+                        {/* General secrets status */}
+                        {secretsLoading && (
+                            <Typography variant="caption" color="info.main">
+                                Loading secrets from Firestore...
+                            </Typography>
+                        )}
+
+                        {secretsError && (
+                            <Typography variant="caption" color="error">
+                                General error: {secretsError}
+                            </Typography>
+                        )}
+
+                        {secrets && openaiSuccess && (
+                            <Typography variant="caption" color="success.main">
+                                All secrets loaded successfully
+                            </Typography>
+                        )}
+                    </Box>
+
+                    <Typography
+                        variant="body1"
+                        color="textSecondary"
+                        sx={{ mb: 3 }}
+                    >
                         Your personal automation tools will appear here.
                     </Typography>
-                    
+
                     {/* OpenAI Interface */}
                     <OpenAIInterface />
                 </Container>

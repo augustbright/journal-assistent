@@ -31,10 +31,15 @@ export const openaiApiKeyAtom = atom(
     }
 );
 
-// Loading state atom
+// Individual secret loading states
+export const openaiLoadingAtom = atom<boolean>(false);
+export const openaiErrorAtom = atom<string | null>(null);
+export const openaiSuccessAtom = atom<boolean>(false);
+
+// General secrets loading state (for overall status)
 export const secretsLoadingAtom = atom<boolean>(false);
 
-// Error state atom
+// General secrets error state
 export const secretsErrorAtom = atom<string | null>(null);
 
 // Helper function to create new secret atoms
