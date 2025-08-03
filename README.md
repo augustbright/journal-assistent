@@ -1,50 +1,141 @@
-# React + TypeScript + Vite
+# Journal Assistant PWA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Progressive Web App (PWA) for journal management, built with React, TypeScript, and Vite. This app is designed to be deployed on GitHub Pages and provides a modern, responsive interface with offline capabilities.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 📱 **Progressive Web App** - Installable on mobile and desktop
+- ⚡ **Fast & Responsive** - Built with Vite for optimal performance
+- 🌐 **Offline Support** - Works without internet connection
+- 🎨 **Modern UI** - Clean, responsive design
+- 📝 **TypeScript** - Type-safe development
+- 🔧 **PWA Ready** - Service worker and manifest included
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Prerequisites
 
-- Configure the top-level `parserOptions` property like this:
+- Node.js 18+ 
+- npm or yarn
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/journal-assistent.git
+cd journal-assistent
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2. Install dependencies:
+```bash
+npm install
 ```
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+4. Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
+- `npm run deploy` - Deploy to GitHub Pages
+
+### Project Structure
+
+```
+journal-assistent/
+├── src/                    # Source code
+│   ├── App.tsx            # Main app component
+│   ├── main.tsx           # App entry point
+│   └── assets/            # Static assets
+├── public/                # Public assets
+├── dist/                  # Build output (generated)
+└── .github/workflows/     # GitHub Actions
+```
+
+## Deployment
+
+### Automatic Deployment (Recommended)
+
+This project is configured for automatic deployment to GitHub Pages using GitHub Actions. Simply push to the `main` branch and the app will be automatically deployed.
+
+### Manual Deployment
+
+1. Build the project:
+```bash
+npm run build
+```
+
+2. Deploy to GitHub Pages:
+```bash
+npm run deploy
+```
+
+### GitHub Pages Setup
+
+1. Go to your repository settings on GitHub
+2. Navigate to "Pages" in the sidebar
+3. Set source to "GitHub Actions"
+4. The app will be available at: `https://yourusername.github.io/journal-assistent/`
+
+## PWA Features
+
+### Installation
+
+- **Desktop**: Click the install button in the browser address bar
+- **Mobile**: Use "Add to Home Screen" from the browser menu
+- **iOS**: Use "Add to Home Screen" from Safari's share menu
+
+### Offline Support
+
+The app includes a service worker that caches resources for offline use. Users can continue using the app even without an internet connection.
+
+## Customization
+
+### Updating App Information
+
+Edit the PWA manifest in `vite.config.ts`:
+
+```typescript
+manifest: {
+  name: 'Your App Name',
+  short_name: 'App',
+  description: 'Your app description',
+  theme_color: '#your-color',
+  // ... other options
+}
+```
+
+### Adding Icons
+
+1. Place your icon files in the `public/` directory
+2. Update the manifest icons array in `vite.config.ts`
+3. Run `npm run build` to generate PWA assets
+
+## Technologies Used
+
+- [React](https://react.dev/) - UI library
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Vite](https://vitejs.dev/) - Build tool
+- [Vite PWA Plugin](https://vite-plugin-pwa.netlify.app/) - PWA support
+- [Workbox](https://developers.google.com/web/tools/workbox) - Service worker
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
