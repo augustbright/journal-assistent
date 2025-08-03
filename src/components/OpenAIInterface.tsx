@@ -3,7 +3,6 @@ import {
     Box,
     TextField,
     Button,
-    Typography,
     Paper,
     Alert,
     CircularProgress,
@@ -27,7 +26,6 @@ interface OpenAIError {
 
 export default function OpenAIInterface() {
     const [prompt, setPrompt] = useState("");
-    const [response, setResponse] = useState<string>("");
     const [actions, setActions] = useState<Action[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>("");
@@ -51,7 +49,6 @@ export default function OpenAIInterface() {
         try {
             setLoading(true);
             setError("");
-            setResponse("");
             setActions([]);
 
             // Using the prompt ID from your curl example
@@ -61,8 +58,6 @@ export default function OpenAIInterface() {
                 prompt,
                 "1"
             );
-
-            setResponse(JSON.stringify(result, null, 2));
 
             // Parse actions from response
             try {
@@ -92,11 +87,7 @@ export default function OpenAIInterface() {
     };
 
     return (
-        <Paper sx={{ p: 3, mb: 3 }}>
-            <Typography variant="h6" gutterBottom>
-                OpenAI API Interface
-            </Typography>
-
+        <Box sx={{ mb: 3 }}>
             {!openaiApiKey && (
                 <Alert severity="warning" sx={{ mb: 2 }}>
                     OpenAI API key not available. Please check your Firestore
@@ -123,11 +114,7 @@ export default function OpenAIInterface() {
                     disabled={loading || !openaiApiKey || !prompt.trim()}
                     sx={{ mb: 2 }}
                 >
-                    {loading ? (
-                        <CircularProgress size={20} />
-                    ) : (
-                        "Send with Prompt ID"
-                    )}
+                    {loading ? <CircularProgress size={20} /> : "Send"}
                 </Button>
             </Box>
 
@@ -137,29 +124,8 @@ export default function OpenAIInterface() {
                 </Alert>
             )}
 
-            {response && (
-                <Box sx={{ mt: 3 }}>
-                    <Typography variant="subtitle2" gutterBottom>
-                        Raw Response:
-                    </Typography>
-                    <Paper
-                        variant="outlined"
-                        sx={{
-                            p: 2,
-                            backgroundColor: "#f5f5f5",
-                            maxHeight: "300px",
-                            overflow: "auto",
-                            fontFamily: "monospace",
-                            fontSize: "0.875rem",
-                        }}
-                    >
-                        {response}
-                    </Paper>
-                </Box>
-            )}
-            
             {/* Display parsed actions */}
             <ActionDisplay actions={actions} />
-        </Paper>
+        </Box>
     );
 }

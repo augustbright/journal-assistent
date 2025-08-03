@@ -35,6 +35,10 @@ export default function SecretStatusIndicator({
         return "Unknown";
     };
 
+    if (success) {
+        return null;
+    }
+
     return (
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
             <Typography variant="body2" sx={{ minWidth: "80px" }}>

@@ -31,7 +31,6 @@ function AppContent() {
     const [darkMode, setDarkMode] = useState(false);
     const { currentUser, logout } = useAuth();
     const {
-        secrets,
         loading: secretsLoading,
         error: secretsError,
         openaiLoading,
@@ -118,15 +117,11 @@ function AppContent() {
                 <Container maxWidth="md" sx={{ flexGrow: 1, py: 4 }}>
                     {/* Welcome message */}
                     <Typography variant="h5" gutterBottom>
-                        Welcome, {currentUser.email}!
+                        Привет!
                     </Typography>
 
                     {/* Secrets status */}
                     <Box sx={{ mb: 3 }}>
-                        <Typography variant="h6" gutterBottom>
-                            Secrets Status
-                        </Typography>
-
                         {/* Individual secret status indicators */}
                         <SecretStatusIndicator
                             secretName="OpenAI"
@@ -147,21 +142,7 @@ function AppContent() {
                                 General error: {secretsError}
                             </Typography>
                         )}
-
-                        {secrets && openaiSuccess && (
-                            <Typography variant="caption" color="success.main">
-                                All secrets loaded successfully
-                            </Typography>
-                        )}
                     </Box>
-
-                    <Typography
-                        variant="body1"
-                        color="textSecondary"
-                        sx={{ mb: 3 }}
-                    >
-                        Your personal automation tools will appear here.
-                    </Typography>
 
                     {/* OpenAI Interface */}
                     <OpenAIInterface />
