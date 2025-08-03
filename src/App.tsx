@@ -10,17 +10,22 @@ import {
     Container,
     Switch,
     FormControlLabel,
+    Button,
 } from "@mui/material";
 
 import {
     Brightness4,
     Brightness7,
+    Logout as LogoutIcon,
 } from "@mui/icons-material";
 import PWABadge from "./PWABadge.tsx";
 import { analytics } from "./firebase.ts";
+import { AuthProvider, useAuth } from "./contexts/AuthContext.tsx";
+import Login from "./components/Login.tsx";
 
-function App() {
+function AppContent() {
     const [darkMode, setDarkMode] = useState(false);
+    const { currentUser, logout } = useAuth();
 
     // Initialize Firebase Analytics
     useEffect(() => {
@@ -41,6 +46,16 @@ function App() {
             },
         },
     });
+
+    // If user is not authenticated, show login
+    if (!currentUser) {
+        return (
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Login />
+            </ThemeProvider>
+        );
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -75,6 +90,14 @@ function App() {
                             }
                             label={darkMode ? <Brightness7 /> : <Brightness4 />}
                         />
+                        <Button
+                            color="inherit"
+                            onClick={logout}
+                            startIcon={<LogoutIcon />}
+                            sx={{ ml: 2 }}
+                        >
+                            Logout
+                        </Button>
                         <PWABadge />
                     </Toolbar>
                 </AppBar>
@@ -82,9 +105,23 @@ function App() {
                 {/* Main Content */}
                 <Container maxWidth="md" sx={{ flexGrow: 1, py: 4 }}>
                     {/* Blank homepage */}
+                    <Typography variant="h5" gutterBottom>
+                        Welcome, {currentUser.email}!
+                    </Typography>
+                    <Typography variant="body1" color="textSecondary">
+                        Your personal automation tools will appear here.
+                    </Typography>
                 </Container>
             </Box>
         </ThemeProvider>
+    );
+}
+
+function App() {
+    return (
+        <AuthProvider>
+            <AppContent />
+        </AuthProvider>
     );
 }
 
