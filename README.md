@@ -43,10 +43,11 @@ npm run dev
 ### Available Scripts
 
 - `npm run dev` - Start development server
-- `npm run build` - Build for production
+- `npm run build` - Build for production (outputs to `docs/`)
 - `npm run build:prod` - Build for production (alias)
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
+- `npm run clean` - Clean build directory
 
 ### Project Structure
 
@@ -57,7 +58,7 @@ journal-assistent/
 │   ├── main.tsx           # App entry point
 │   └── assets/            # Static assets
 ├── public/                # Public assets
-├── dist/                  # Build output (generated)
+├── docs/                  # Build output (generated)
 └── .github/workflows/     # GitHub Actions
 ```
 
@@ -74,19 +75,18 @@ npm run build
 ./deploy.sh
 ```
 
-2. The build files will be generated in the `dist/` directory
+2. The build files will be generated in the `docs/` directory
 
 3. Deploy to GitHub Pages:
-   - Create a `gh-pages` branch
-   - Push the contents of the `dist/` folder to that branch
-   - Or use GitHub's Pages settings to deploy from a branch
+   - Push the `docs/` folder to your main branch
+   - Or use GitHub's Pages settings to deploy from the main branch
 
 ### GitHub Pages Setup
 
 1. Go to your repository settings on GitHub
 2. Navigate to "Pages" in the sidebar
 3. Set source to "Deploy from a branch"
-4. Select the `gh-pages` branch and `/ (root)` folder
+4. Select the `main` branch and `/docs` folder
 5. The app will be available at: `https://yourusername.github.io/journal-assistent/`
 
 ## PWA Features

@@ -9,8 +9,8 @@ npm run build
 
 if [ $? -eq 0 ]; then
     echo "✅ Build successful!"
-    echo "📁 Build files are in the 'dist' directory"
-    echo "🌐 You can now push the dist folder to your gh-pages branch"
+    echo "📁 Build files are in the 'docs' directory"
+    echo "🌐 You can now push the docs folder to your main branch for GitHub Pages"
     echo "📱 PWA features are enabled - users can install the app!"
 else
     echo "❌ Build failed!"

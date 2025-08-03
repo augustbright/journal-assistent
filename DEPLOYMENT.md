@@ -22,27 +22,18 @@ npm run build
 ./deploy.sh
 ```
 
-This will generate the production files in the `dist/` directory.
+This will generate the production files in the `docs/` directory.
 
 ### 2. Deploy to GitHub Pages
 
-#### Option A: Manual Branch Deployment
+#### Option A: Direct Deployment from Main Branch
 
-1. Create a `gh-pages` branch:
+1. Build and commit the docs folder:
 ```bash
-git checkout -b gh-pages
-```
-
-2. Copy the contents of `dist/` to the root:
-```bash
-cp -r dist/* .
-```
-
-3. Commit and push:
-```bash
-git add .
+npm run build
+git add docs/
 git commit -m "Deploy PWA to GitHub Pages"
-git push origin gh-pages
+git push origin main
 ```
 
 #### Option B: GitHub Pages Settings
@@ -50,7 +41,7 @@ git push origin gh-pages
 1. Go to your repository settings on GitHub
 2. Navigate to "Pages" in the left sidebar
 3. Under "Source", select "Deploy from a branch"
-4. Select the `gh-pages` branch and `/ (root)` folder
+4. Select the `main` branch and `/docs` folder
 5. Click "Save"
 
 ### 3. Verify Deployment

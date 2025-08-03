@@ -8,7 +8,8 @@
         "build": "tsc -b && vite build",
         "lint": "eslint .",
         "preview": "vite preview",
-        "build:prod": "npm run build"
+        "build:prod": "npm run build",
+        "clean": "rm -rf docs"
     },
     "dependencies": {
         "react": "^19.0.0",
