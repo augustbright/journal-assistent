@@ -10,40 +10,48 @@ This guide will help you deploy your PWA to GitHub Pages.
 
 ## Quick Start
 
-### 1. Enable GitHub Pages
+### 1. Build Locally
 
-1. Go to your repository on GitHub
-2. Click on "Settings" tab
-3. Scroll down to "Pages" in the left sidebar
-4. Under "Source", select "GitHub Actions"
-5. Click "Save"
-
-### 2. Deploy Your App
-
-#### Option A: Automatic Deployment (Recommended)
-
-Simply push your code to the `main` branch:
+Build your project locally:
 
 ```bash
-git add .
-git commit -m "Initial PWA setup"
-git push origin main
-```
+# Build the project
+npm run build
 
-The GitHub Actions workflow will automatically:
-- Build your project
-- Deploy it to GitHub Pages
-- Make it available at `https://yourusername.github.io/journal-assistent/`
-
-#### Option B: Manual Deployment
-
-```bash
-# Build and deploy
-npm run deploy
-
-# Or use the deployment script
+# Or use the build script
 ./deploy.sh
 ```
+
+This will generate the production files in the `dist/` directory.
+
+### 2. Deploy to GitHub Pages
+
+#### Option A: Manual Branch Deployment
+
+1. Create a `gh-pages` branch:
+```bash
+git checkout -b gh-pages
+```
+
+2. Copy the contents of `dist/` to the root:
+```bash
+cp -r dist/* .
+```
+
+3. Commit and push:
+```bash
+git add .
+git commit -m "Deploy PWA to GitHub Pages"
+git push origin gh-pages
+```
+
+#### Option B: GitHub Pages Settings
+
+1. Go to your repository settings on GitHub
+2. Navigate to "Pages" in the left sidebar
+3. Under "Source", select "Deploy from a branch"
+4. Select the `gh-pages` branch and `/ (root)` folder
+5. Click "Save"
 
 ### 3. Verify Deployment
 
